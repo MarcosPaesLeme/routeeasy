@@ -12,7 +12,6 @@ import '../../node_modules/leaflet/dist/images/marker-icon.png';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title: string = 'AGM project';
   latitude: number;
   longitude: number;
   zoom: number;
@@ -93,8 +92,6 @@ export class AppComponent implements OnInit {
  
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;
@@ -117,7 +114,6 @@ export class AppComponent implements OnInit {
   getAllCLients() {
     this.dataService.getAllClients().subscribe(
       res => {
-        console.log(res);
         this.clients = res;
         for (let index = 0; index < this.clients.length; index++) {
 
@@ -138,6 +134,10 @@ export class AppComponent implements OnInit {
   }
   registerClient() {
 
+    if(this.name || this.weigth || this.fullAddress || this.latitude || this.longitude) {
+      alert('Por favor, preencha os campos')
+      return ;
+    }
     const params = {
       clientName: this.name,
       weigth: this.weigth,
@@ -157,6 +157,7 @@ export class AppComponent implements OnInit {
     };
     this.dataService.registerClient(params).subscribe(
       res => {
+        this.resetValues();
         this.getAllCLients();        
       }, err => {
         console.log('err', err);
@@ -174,8 +175,10 @@ export class AppComponent implements OnInit {
   }
 
   resetValues() {
-    this.name = '';
-    this.weigth = 0;
-    
+    this.name = undefined;
+    this.weigth = undefined;
+    this.clients = [];
+    this.latitude = undefined;
+    this.longitude = undefined;
   }
 }
