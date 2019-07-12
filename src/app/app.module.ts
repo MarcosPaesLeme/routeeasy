@@ -21,7 +21,7 @@ import { DataService } from './data.service';
     AppRoutingModule,
     LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCv3dSKvGm_qWmmRAVncrUvby6wgFzYYf8',
+      apiKey: 'YOUR_API_KEY',
       libraries: ['places']
     }),
     FormsModule,
